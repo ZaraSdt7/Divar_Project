@@ -1,8 +1,7 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-    "lint-staged": {
-      "**/*": "prettier --write --ignore-unknown"
-    }
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
-  
+}
