@@ -14,11 +14,19 @@ export class Account {
   id: number;
 
   @Column({ nullable: false })
-  nickname: string;
+  username: string;
 
-  @OneToOne(() => User, (user) => user.account)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
+  @Column({ nullable: true })
+  lastname: string;
+
+  @Column({ nullable: true })
+  firstname: string;
+
+  @Column({ nullable: false, unique: true })
+  email: string;
+
+  @Column({ nullable: false })
+  password: string;
 
   @OneToOne(() => Authentication, (authentication) => authentication.account)
   authentication: Authentication;
