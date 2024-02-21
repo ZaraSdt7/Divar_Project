@@ -5,7 +5,6 @@ import {
   IsString,
   isString,
   isNumber,
-  IsNotEmpty,
 } from 'class-validator';
 
 export class UpdateAdDto {
