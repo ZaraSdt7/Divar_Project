@@ -27,11 +27,11 @@ export class Ad {
 
   @ManyToOne(() => Category, (category) => category.ads)
   @JoinColumn({ name: 'category_id' })
-  category: Category;
+  category: Category[];
 
   @ManyToOne(() => City, (city) => city.ads)
   @JoinColumn({ name: 'city_id' })
-  city: City;
+  city: City[];
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
