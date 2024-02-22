@@ -1,4 +1,4 @@
-import { Ad } from 'src/ad/entities/ad.entity';
+import { Ad } from 'src/module/ad/entities/ad.entity';
 import {
   Column,
   CreateDateColumn,
@@ -20,7 +20,7 @@ export class Category {
   parentCategoryId: number;
 
   @OneToMany(() => Ad, (ad) => ad.category)
-  ads: Ad[];
+  ad: Ad[];
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;

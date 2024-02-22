@@ -1,4 +1,4 @@
-import { Ad } from 'src/ad/entities/ad.entity';
+import { Ad } from 'src/module/ad/entities/ad.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('city')
 export class City {
@@ -12,5 +12,5 @@ export class City {
   province: string;
 
   @OneToMany(() => Ad, (ad) => ad.city)
-  ads: Ad[];
+  ad: Ad[];
 }

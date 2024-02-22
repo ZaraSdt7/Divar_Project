@@ -25,6 +25,9 @@ export class Account {
   @Column({ nullable: false })
   password: string;
 
+  @Column({ nullable: true })
+  code: string; // Field for storing OTP code
+
   @OneToOne(() => Authentication, (authentication) => authentication.account)
   authentication: Authentication;
 
