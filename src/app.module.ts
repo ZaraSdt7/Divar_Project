@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
-import { AdModule } from './ad/ad.module';
-import { CategoryModule } from './category/category.module';
-import { CityModule } from './city/city.module';
 import { MulterModule } from '@nestjs/platform-express';
-import { AuthModule } from './auth/auth.module';
+import { DatabaseModule } from './module/database/database.module';
+import { AdModule } from './module/ad/ad.module';
+import { CategoryModule } from './module/category/category.module';
+import { CityModule } from './module/city/city.module';
+import { AuthModule } from './module/auth/auth.module';
+import { AppController } from './app/app.controller';
+import { AppService } from './app/app.service';
 
 @Module({
   imports: [
