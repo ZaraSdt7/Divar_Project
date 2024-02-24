@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SequelizeConfigService } from './sequelize.service';
 @Module({
   imports: [
+    SequelizeModule.forRootAsync({
+      useClass: SequelizeConfigService,
+    }),
     ConfigModule.forRoot({
       envFilePath: [`.env`],
       isGlobal: true,
