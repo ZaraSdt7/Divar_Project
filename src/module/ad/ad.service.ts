@@ -8,26 +8,26 @@ import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ad } from './entities/ad.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { City } from '../city/entities/city.entity';
 import { Category } from '../category/entities/category.entity';
+import { CityService } from '../city/city.service';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class AdService {
   constructor(
     @InjectRepository(Ad) private readonly adrepository: Repository<Ad>,
-    @InjectRepository(City) private readonly cityrepository: Repository<City>,
+    @InjectRepository(City) private readonly cityservice: CityService,
     @InjectRepository(Category)
-    private readonly categoryrepository: Repository<Category>,
+    private readonly categoryserice: CategoryService,
   ) {}
   async create(createAdDto: CreateAdDto): Promise<Ad> {
     const { title, description, price, image, cityID, categoryID } =
       createAdDto;
     try {
-      const city = await this.cityrepository.findOne({ where: { id: cityID } });
-      const category = await this.categoryrepository.findOne({
-        where: { id: categoryID },
-      });
+      const city = await this.cityservice.findById(cityID);
+      const category = await this.categoryserice.findbyid(categoryID);
       if (!category || !city) {
         throw new HttpException(
           'City or Category not found',
@@ -67,33 +67,26 @@ export class AdService {
         updateAdDto;
 
       if (cityID) {
-        const foundcity = await this.cityrepository.findOne({
-          where: { id: cityID },
-        });
+        const foundcity = await this.cityservice.findById(updateAdDto.cityID);
         if (!foundcity) {
           throw new NotFoundException('Invalid city ID');
         }
-        updated.city = foundcity;
       }
-
       if (categoryID) {
-        const category = await this.categoryrepository.findOne({
-          where: { id: categoryID },
-        });
+        const category = await this.categoryserice.findbyid(
+          updateAdDto.categoryID,
+        );
         if (!category) {
           throw new NotFoundException('Invalid category ID');
         }
-        updated.category = category;
+        // Update other properties
+        updated.title = title ?? updated.title;
+        updated.description = description ?? updated.description;
+        updated.price = price ?? updated.price;
+        updated.image = image ?? updated.image;
+
+        return await this.adrepository.save(updated);
       }
-
-      // Update other properties
-
-      updated.title = title ?? updated.title;
-      updated.description = description ?? updated.description;
-      updated.price = price ?? updated.price;
-      updated.image = image ?? updated.image;
-
-      return await this.adrepository.save(updated);
     } catch (error) {
       throw new HttpException(
         {
@@ -111,10 +104,10 @@ export class AdService {
     return await this.adrepository.find({ relations: ['city', 'category'] }); // Fetch related entities
   }
 
-  async findOne(id: number): Promise<Ad | undefined> {
+  async findById(ids: number[]): Promise<Ad | undefined> {
     return await this.adrepository.findOne({
-      where: { id },
-      relations: ['city', 'category'],
+      where: { id: In(ids) },
+      relations: ['city', 'category'], // Adjust based on your needs
     });
   }
 

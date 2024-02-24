@@ -39,4 +39,5 @@ export class Ad {
   createdAt: Date;
   @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
   updatedAt: Date;
+  length: number;
 }
