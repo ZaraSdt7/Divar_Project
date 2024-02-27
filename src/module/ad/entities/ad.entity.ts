@@ -1,3 +1,4 @@
+import { Account } from 'src/module/auth/entities/account.entity';
 import { Category } from 'src/module/category/entities/category.entity';
 import { City } from 'src/module/city/entities/city.entity';
 import {
@@ -27,11 +28,15 @@ export class Ad {
   @Column({ nullable: true })
   image: string;
 
-  @ManyToOne(() => Category, (category) => category.ad)
+  @ManyToOne(() => Account, (account) => account.ads, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'account_id' })
+  account: Account;
+
+  @ManyToOne(() => Category, (category) => category.ad, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'category_id' })
   category: Category[];
 
-  @ManyToOne(() => City, (city) => city.ad)
+  @ManyToOne(() => City, (city) => city.ad, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'city_id' })
   city: City[];
 

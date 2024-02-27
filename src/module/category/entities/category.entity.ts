@@ -19,7 +19,7 @@ export class Category {
   @Column({ nullable: true })
   parentCategoryId: number;
 
-  @OneToMany(() => Ad, (ad) => ad.category)
+  @OneToMany(() => Ad, (ad) => ad.category, { onDelete: 'CASCADE' })
   ad: Ad[];
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })

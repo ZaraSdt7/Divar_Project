@@ -11,6 +11,6 @@ export class City {
   @Column({ nullable: true })
   province: string;
 
-  @OneToMany(() => Ad, (ad) => ad.city)
+  @OneToMany(() => Ad, (ad) => ad.city, { onDelete: 'CASCADE' })
   ad: Ad[];
 }
