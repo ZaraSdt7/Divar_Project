@@ -25,6 +25,8 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Mii project Divar backend...
+We are working hard to improve the backend of the Divar site.
 
 ## Installation
 
