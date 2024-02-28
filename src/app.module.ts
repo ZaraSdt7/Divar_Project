@@ -7,6 +7,7 @@ import { CityModule } from './module/city/city.module';
 import { AuthModule } from './module/auth/auth.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AppService } from './app/app.service';
     CityModule,
     MulterModule.register({ dest: './file-uploads' }),
     AuthModule,
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],

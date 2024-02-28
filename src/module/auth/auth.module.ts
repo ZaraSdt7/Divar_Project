@@ -7,6 +7,8 @@ import { Authentication } from './entities/auth.entity';
 import { Authorization } from './entities/authorization.entity';
 import { AuthenticationData } from './entities/authdata.entity';
 import { AuthorizationData } from './entities/authorizdata';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtGuardAuth } from '../guard/guard.jwt';
 
 @Module({
   imports: [
@@ -17,8 +19,16 @@ import { AuthorizationData } from './entities/authorizdata';
       AuthenticationData,
       AuthorizationData,
     ]),
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: process.env.SECRET_KEY,
+        signOptions: {
+          expiresIn: '10 days',
+        },
+      }),
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtGuardAuth],
 })
 export class AuthModule {}
