@@ -3,40 +3,46 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { AdService } from './ad.service';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
+import { Ad } from './entities/ad.entity';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('ad')
+@Controller('ads')
+@ApiTags('ad')
 export class AdController {
   constructor(private readonly adService: AdService) {}
 
   @Post()
-  create(@Body() createAdDto: CreateAdDto) {
-    return this.adService.create(createAdDto);
+  async create(@Body() createAdDto: CreateAdDto): Promise<Ad> {
+    return await this.adService.create(createAdDto);
   }
 
   @Get()
-  findAll() {
-    return this.adService.findAll();
+  async findAll(): Promise<Ad[]> {
+    return await this.adService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adService.findOne(+id);
+  async findById(@Param('id') id: number): Promise<Ad | undefined> {
+    return await this.adService.findById([id]);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdDto: UpdateAdDto) {
-    return this.adService.update(+id, updateAdDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateAdDto: UpdateAdDto,
+  ): Promise<Ad> {
+    return await this.adService.update(id, updateAdDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adService.remove(+id);
+  async remove(@Param('id') id: number): Promise<void> {
+    await this.adService.remove(id);
   }
 }
