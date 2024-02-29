@@ -8,6 +8,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import { AccountModule } from './account/account.module';
+import { SmsModule } from './module/sms/sms.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AccountModule } from './account/account.module';
     MulterModule.register({ dest: './file-uploads' }),
     AuthModule,
     AccountModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
