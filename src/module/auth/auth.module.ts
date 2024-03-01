@@ -9,6 +9,7 @@ import { AuthenticationData } from './entities/authdata.entity';
 import { AuthorizationData } from './entities/authorizdata';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtGuardAuth } from '../guard/guard.jwt';
+import { SmsModule } from '../sms/sms.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtGuardAuth } from '../guard/guard.jwt';
       Authorization,
       AuthenticationData,
       AuthorizationData,
+      SmsModule,
     ]),
     JwtModule.registerAsync({
       useFactory: () => ({

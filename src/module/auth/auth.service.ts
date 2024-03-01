@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/register-dto';
-import { UpdateAuthDto } from './dto/login-dto';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { LoginDto } from './dto/login-dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Account } from './entities/account.entity';
+import { Repository } from 'typeorm';
+import { SmsService } from '../sms/sms.service';
+import { ResponseFormat } from '../constants/response-format.interface';
+import { ResponseMessages } from '../constants/response-messages.constant';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    @InjectRepository(Account)
+    private readonly accountrepository: Repository<Account>,
+    private readonly smmservice: SmsService,
+    private jwtservice: JwtService,
+  ) {}
+
+  async login(logindto: LoginDto): Promise<ResponseFormat<any>> {
+    const existingAccount = await this.accountrepository.findOne({
+      where: { mobile: logindto.mobile },
+    });
+    const otpcode = await this.smmservice.sendOtpcode(
+      existingAccount.mobile,
+      existingAccount.code,
+    );
+    if (existingAccount) {
+      // check otpcode
+      if (existingAccount.code !== otpcode) {
+        throw new UnauthorizedException(
+          ResponseMessages.CODE_SENT_IS_NOT_CORRECT,
+        );
+      }
+
+      await this.accountrepository.save(existingAccount);
+
+      return {
+        statusCode: HttpStatus.CREATED,
+        message: 'login successful',
+      };
+    } else {
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'please create account',
+      };
+    }
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  private generateRandomNumber(): string {
+    const minm = 100000,
+      maxm = 999999;
+    const code = Math.floor(Math.random() * (maxm - minm + 1)) + minm;
+    return String(code);
   }
 }

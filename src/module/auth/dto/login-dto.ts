@@ -20,6 +20,7 @@ export class LoginDto {
   @IsString()
   @IsNotEmpty()
   code: string;
+
   // @ApiProperty({
   //   type: IsString,
   //   required: true,
