@@ -7,8 +7,8 @@ import { CityModule } from './module/city/city.module';
 import { AuthModule } from './module/auth/auth.module';
 import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
-import { AccountModule } from './account/account.module';
 import { SmsModule } from './module/sms/sms.module';
+import { AccountModule } from './module/account/account.module';
 
 @Module({
   imports: [
