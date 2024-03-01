@@ -13,13 +13,13 @@ import { AccountModule } from './module/account/account.module';
 @Module({
   imports: [
     DatabaseModule,
+    CityModule,
     AdModule,
     CategoryModule,
-    CityModule,
-    MulterModule.register({ dest: './file-uploads' }),
     AuthModule,
     AccountModule,
     SmsModule,
+    MulterModule.register({ dest: './file-uploads' }),
   ],
   controllers: [AppController],
   providers: [AppService],
