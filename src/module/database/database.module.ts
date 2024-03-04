@@ -3,14 +3,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SequelizeConfigService } from './sequelize.service';
+import * as databaseconfig from './database.config';
 @Module({
   imports: [
-    SequelizeModule.forRootAsync({
-      useClass: SequelizeConfigService,
-    }),
     ConfigModule.forRoot({
       envFilePath: [`.env`],
       isGlobal: true,
+      load: [() => ({ database: databaseconfig })],
+    }),
+    SequelizeModule.forRootAsync({
+      useClass: SequelizeConfigService,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -19,7 +21,7 @@ import { SequelizeConfigService } from './sequelize.service';
         return {
           type: 'mysql',
           autoLoadEntities: true,
-          synchronize: true,
+          synchronize: false,
           host: configService.get('DB_HOST'),
           port: configService.get('DB_PORT'),
           username: configService.get('DB_USERNAME'),

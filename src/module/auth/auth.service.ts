@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     @InjectRepository(Account)
     private readonly accountrepository: Repository<Account>,
-    private readonly smmservice: SmsService,
+    private readonly smsservice: SmsService,
     private jwtservice: JwtService,
   ) {}
 
@@ -21,7 +21,7 @@ export class AuthService {
     const existingAccount = await this.accountrepository.findOne({
       where: { mobile: logindto.mobile },
     });
-    const otpcode = await this.smmservice.sendOtpcode(
+    const otpcode = await this.smsservice.sendOtpcode(
       existingAccount.mobile,
       existingAccount.code,
     );

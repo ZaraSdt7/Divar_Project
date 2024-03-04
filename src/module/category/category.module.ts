@@ -9,5 +9,6 @@ import { Category } from './entities/category.entity';
   imports: [forwardRef(() => AdModule), TypeOrmModule.forFeature([Category])],
   controllers: [CategoryController],
   providers: [CategoryService, Category],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

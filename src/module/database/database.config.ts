@@ -1,9 +1,9 @@
 const sequelize = {
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 3306,
-  username: process.env.DB_USERNAME || 'mysql',
-  password: process.env.DB_PASSWORD || 'mysql',
-  database: process.env.DB_DATABASE || 'divar',
+  username: process.env.DB_USERNAME || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_DATABASE || 'test',
   Pool: {
     evict: +process.env.DB_EVICT || 1000,
     idle: +process.env.DB_IDLE || 0,
@@ -12,7 +12,4 @@ const sequelize = {
     maxUses: +process.env.DB_MAXUSE || 0,
   },
 };
-
-export default {
-  sequelize,
-};
+export { sequelize };

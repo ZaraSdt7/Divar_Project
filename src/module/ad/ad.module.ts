@@ -10,5 +10,6 @@ import { Ad } from './entities/ad.entity';
   imports: [CityModule, CategoryModule, TypeOrmModule.forFeature([Ad])],
   controllers: [AdController],
   providers: [AdService, Ad],
+  exports: [AdService],
 })
 export class AdModule {}

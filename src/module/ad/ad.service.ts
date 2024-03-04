@@ -1,16 +1,17 @@
 import {
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ad } from './entities/ad.entity';
 import { In, Repository } from 'typeorm';
-import { City } from '../city/entities/city.entity';
-import { Category } from '../category/entities/category.entity';
+
 import { CityService } from '../city/city.service';
 import { CategoryService } from '../category/category.service';
 
@@ -18,8 +19,9 @@ import { CategoryService } from '../category/category.service';
 export class AdService {
   constructor(
     @InjectRepository(Ad) private readonly adrepository: Repository<Ad>,
-    @InjectRepository(City) private readonly cityservice: CityService,
-    @InjectRepository(Category)
+    @Inject(forwardRef(() => CityService))
+    private readonly cityservice: CityService,
+    @Inject(forwardRef(() => CategoryService))
     private readonly categoryserice: CategoryService,
   ) {}
   async create(createAdDto: CreateAdDto): Promise<Ad> {

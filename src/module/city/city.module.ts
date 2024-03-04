@@ -8,6 +8,7 @@ import { City } from './entities/city.entity';
 @Module({
   imports: [forwardRef(() => AdModule), TypeOrmModule.forFeature([City])],
   controllers: [CityController],
-  providers: [CityService],
+  providers: [CityService, City],
+  exports: [CityService],
 })
 export class CityModule {}

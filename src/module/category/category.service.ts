@@ -3,6 +3,8 @@ import {
   HttpException,
   HttpStatus,
   NotFoundException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -16,6 +18,7 @@ export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    @Inject(forwardRef(() => AdService))
     private readonly adservice: AdService,
   ) {}
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {

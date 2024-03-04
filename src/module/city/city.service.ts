@@ -2,8 +2,10 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
@@ -17,6 +19,7 @@ export class CityService {
   constructor(
     @InjectRepository(City)
     private readonly cityrepository: Repository<City>,
+    @Inject(forwardRef(() => AdService))
     private readonly adservice: AdService,
   ) {}
   async create(createCityDto: CreateCityDto): Promise<City> {
