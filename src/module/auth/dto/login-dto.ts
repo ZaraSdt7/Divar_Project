@@ -20,6 +20,8 @@ export class LoginDto {
   @IsString()
   @IsNotEmpty()
   code: string;
+}
+
 
   // @ApiProperty({
   //   type: IsString,
@@ -41,4 +43,4 @@ export class LoginDto {
   // @IsStrongPassword()
   // @IsNotEmpty()
   // password: string;
-}
+
