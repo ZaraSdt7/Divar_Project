@@ -30,4 +30,3 @@ export class RegisterDto {
   @IsNotEmpty()
   code: string;
 }
-
